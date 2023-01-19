@@ -6,34 +6,38 @@
       <!--Import materialize.css-->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
       <script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+      <script src = "/js/home/index.js" defer></script> 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       <title>Akasha</title>
     </head>
-
     <body>
-
-
       <nav class="nav-wrapper">
-
           <a href="#" data-activates="mobile-demo" class="button-collapse">
             <i class="material-icons">menu</i>
           </a>
-
           <ul class="right hide-on-med-and-down">
             <li><a href="#">HOME</a></li>
             <li><a href="#">GUESTBOOK</a></li>
-            <li><a href="#">DASHBOARD</a></li>
-            <li><a href="./login">LOGIN</a></li>
-
-
+            <li><a href="#">DASHBOARD</a></li>      
+            
+            <%if (locals.cookies == "{}") {%>
+              <li id="login-button"><a href="./login">LOGIN</a></li>
+            <%} else {%>
+              <li id="logout-button"><a href="./login">LOGOUT</a></li>
+            <%}%>
           <ul class="side-nav" id="mobile-demo">
             <li><a href="#">HOME</a></li>
             <li><a href="#">GUESTBOOK</a></li>
-            <li><a href="#">DASHBOARD</a></li>
-            <li><a href="./login.ejs">LOGIN</a></li>
+            <li><a href="#">DASHBOARD</a></li> 
+           
+              <%if (!locals.cookies) {%>
+                <li><a href="./login">LOGIN</a></li>
+              <%} else {%>
+                <li><a href="./login">LOGOUT</a></li>
+              <%}%>
+           
           </ul>
-
       </nav>
       <script src="a.js"></script>
       <!--Import jQuery before materialize.js-->
