@@ -1,6 +1,7 @@
 "use strict"
 
 const UserStorage = require("./UserStorage");
+const crypto = require("crypto");
 
 class User {
     constructor(body) {
@@ -14,15 +15,29 @@ class User {
             const user = await UserStorage.getUserInfo(client.id);
 
             if (user) {
-                if (user.id == client.id && user.psword == client.psword) {
-                    return { loginFlag: true };
+
+                const hashPassword = crypto.createHash('sha512').update(client.psword).digest('hex');
+
+                if (user.id == client.id && user.psword == hashPassword) {
+                    return { success: true };
                 }
-                return { loginFlag: false, msg: "비밀번호가 다릅니다." };
+                return { success: false, msg: "비밀번호가 다릅니다." };
             }
-            return { loginFlag: false, msg: "존재하지 않는 아이디 입니다." };
+            return { success: false, msg: "존재하지 않는 아이디 입니다." };
             
         } catch (err) {
-            return { loginFlag: false, err };
+            return { success: false, err };
+        }
+    }
+
+    async register() {
+        const client = this.body;
+
+        try{ 
+            const response = await UserStorage.save(client);
+            return response;
+        } catch(err) {
+            return { success: false, err };
         }
     }
 }
